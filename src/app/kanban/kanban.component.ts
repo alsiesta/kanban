@@ -96,8 +96,7 @@ export class KanbanComponent implements OnDestroy {
     });
   }
 
-  // Call this.needsUpdate() in the methods that are called when the page is left, reloaded, or a task detail is opened
-  // If this.needsUpdate() returns true, call this.updateTasks()
+
 
   initTaskCards () {
     // Iterate over the tasks and push them into the appropriate arrays
@@ -175,7 +174,9 @@ export class KanbanComponent implements OnDestroy {
   console.log('Done:', this.done);
   }
 
-
+  getTaskById(id: string): Task | undefined {
+    return this.tasks.find(task => task.id.toString() === id);
+  }
 
   ngOnDestroy () {
     if (this.needsUpdate()) {
