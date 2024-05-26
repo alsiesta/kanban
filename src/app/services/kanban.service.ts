@@ -11,8 +11,13 @@ export class KanbanService {
 
   constructor (private http: HttpClient) { }
 
-public getTasks () {
+  public getTasks () {
     const url = environment.baseUrl + '/tasks/';
     return this.http.get<Task[]>(url);
-}
+  }
+
+  public updateTasks(tasks: Task[]) {
+    const url = environment.baseUrl + '/tasks/bulk_update/';
+    return this.http.put(url, tasks);
+  }
 }

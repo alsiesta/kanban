@@ -9,4 +9,5 @@ export interface Task {
   color: string;
   user: number;
   subtask: string;
+  order: number;
 }
