@@ -1,0 +1,89 @@
+
+@use '@angular/material' as mat;
+@import "@angular/material/theming";
+@include mat-core();
+
+html,
+body {
+  height: 100%;
+}
+body {
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  margin: 0;
+}
+
+//light theme
+$konferenz-app-primary: mat-palette($mat-light-blue, 400);
+$konferenz-app-accent: mat-palette($mat-light-green);
+$konferenz-app-warn: mat-palette($mat-red);
+
+
+$light-theme: mat.define-light-theme((
+  color: (
+    primary: $konferenz-app-primary,
+    accent: $konferenz-app-accent,
+    warn: $konferenz-app-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+    ));
+    
+@include angular-material-theme($light-theme);
+
+//dark theme
+$konferenz-app-primary-dark: mat-palette($mat-cyan, 100);
+$konferenz-app-accent-dark: mat-palette($mat-yellow);
+$konferenz-app-warn-dark: mat-palette($mat-red);
+
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $konferenz-app-primary-dark,
+    accent: $konferenz-app-accent-dark,
+    warn: $konferenz-app-warn-dark,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+    ));
+
+.dark-theme-mode{
+    @include angular-material-theme($dark-theme);
+}
+
+.toolbar-nav {
+  display: none; 
+
+  @media (min-width: 960px) {
+    display: block; 
+  }
+}
+
+.header-nav{
+  margin-right: 40px;
+}
+
+.link{
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+
+.grid-container{
+  margin: 0 !important;
+}
+
+.dashboard-card{
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  border-radius: 40px !important;
+  // background-color: yellowgreen !important;
+}
+
+
+h1 {
+  padding-left: 20px;
+}
+
+.main_container{
+  margin: 20px;
+}

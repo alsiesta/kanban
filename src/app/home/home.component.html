@@ -1,0 +1,25 @@
+<h1 class="mat-h1">Präsentationen & Workshops</h1>
+<div class="grid-container">
+  <mat-card  *ngFor="let card of contents">
+    <mat-card-header>
+      <mat-card-title>
+        {{card.title}}
+      </mat-card-title>
+      <mat-card-subtitle *ngIf="card.sub_title">{{card.sub_title}}</mat-card-subtitle>
+    </mat-card-header>
+    <div class="img-wrapper" *ngIf="card.imgsrc">
+      <img mat-card-image class="img" [src]="card.imgsrc" [alt]="card.imgcaption">
+    </div>
+    <mat-card-content class="card-content">
+      <div class="img-wrapper" *ngIf="card.image">
+
+        <!-- Use this if you serve media files locally -->
+        <!-- <img mat-card-image class="img" [src]="'http://127.0.0.1:8000' + card.image" [alt]="card.imgcaption"> -->
+
+        <!-- Below is used, when i serve the image from cloudinary, Azure.. where it is in this path 'media/img' like defined in the python backend app -->
+        <img mat-card-image class="img" [src]="card.image" [alt]="card.imgcaption">
+      </div>
+      <div>{{card.content}}</div>
+    </mat-card-content>
+  </mat-card>
+</div>

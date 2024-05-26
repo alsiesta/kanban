@@ -1,0 +1,11 @@
+.mini-link {
+    padding-left: 20px;
+    text-decoration: none;
+    color: red;
+    font-size: 12px;
+
+    &:hover {
+        color: green;
+        text-decoration: underline;
+    }
+}

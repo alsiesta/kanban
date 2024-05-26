@@ -1,0 +1,76 @@
+.grid-container {
+  display: grid;
+  gap: 15px;
+
+  :nth-child(1){
+    grid-area: one;
+  }
+  :nth-child(2){
+    grid-area: two;
+  }
+  :nth-child(3){
+    grid-area: three;
+  }
+  :nth-child(4){
+    grid-area: four;
+  }
+  :nth-child(5){
+    grid-area: five;
+  }
+  :nth-child(6){
+    grid-area: six;
+  }
+  :nth-child(7){
+    grid-area: seven;
+  }
+
+  grid-auto-columns: 1fr;
+  grid-template-areas:
+    'one one'
+    'two three'
+    'four three'
+    'five six'
+    'seven seven'
+  ;
+
+  @media (max-width: 599px) {
+    grid-template-areas:
+      'one one'
+      'two two'
+      'three three'
+      'four four'
+      'five five'
+      'six six'
+      'seven seven'
+    ;
+  }
+}
+
+  // .img-wrapper {
+  //   padding-left: 15px;
+  //   padding-right: 15px;
+  // }
+
+  .img {
+    height: 250px !important;
+    object-fit: cover !important;
+    width: 100%; // to make the image take the full width of the wrapper
+  }
+
+// @media (max-width: 599px) {
+//   .grid-container {
+//     grid-template-columns: 1fr;
+//   }
+// }
+
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.card-content {
+  text-align: left;
+  margin-top: 15px;
+}
