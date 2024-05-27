@@ -29,6 +29,7 @@ root/src/web.config
 ```
 
 Call it in the **angular.json** as an additional asset
+
 ```
 
  "assets": [
@@ -37,4 +38,12 @@ Call it in the **angular.json** as an additional asset
               "src/web.config"
             ],
 
-´´´
+```
+
+# deploy to Azure
+Use Azure Extension and
+- rightclick on *Static Web Apps
+- ...
+- ...
+- ...
+- ...
