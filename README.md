@@ -39,6 +39,13 @@ Call it in the **angular.json** as an additional asset
             ],
 
 ```
+In the environments.ts for production i have to set the correct baseURL like so - including the protocoll **'https://'** otherwise, it is appended additionally to the actual web url and won't work with the respective backend API:
+```
+export const environment = {
+    production: true,
+    baseUrl: 'https://kanban240527backend.azurestaticapps.net/'
+};
+```
 
 # deploy to Azure
 Use Azure Extension and
