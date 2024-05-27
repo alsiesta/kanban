@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    baseUrl:'ki-konferenz.azurewebsites.net/',
+    baseUrl:'proud-pebble-0eab18203.5.azurestaticapps.net/',
 };
