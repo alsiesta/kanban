@@ -1,6 +1,0 @@
-[defaults]
-group = rg-dlaweb
-sku = F1
-appserviceplan = dla-asp-f1
-location = westeurope
-web = dlawebapp
