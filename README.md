@@ -54,3 +54,19 @@ Use Azure Extension and
 - ...
 - ...
 - ...
+
+## Routing 
+You need to add a **staticwebapp.config.json** in the root directory with the following content
+```
+{
+  //staticwebapp.config.json
+  
+  "routes": [
+    {
+      "route": "/*",
+      "serve": "/index.html",
+      "statusCode": 200
+    }
+  ]
+}
+```
