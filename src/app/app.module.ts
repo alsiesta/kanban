@@ -20,11 +20,15 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AllPostsComponent } from './all-posts/all-posts.component';
 import { LoginComponent } from './login/login.component';
 import { KanbanComponent } from './kanban/kanban.component';
+import { KanbanDialogComponent } from './kanban-dialog/kanban-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +36,8 @@ import { KanbanComponent } from './kanban/kanban.component';
     HomeComponent,
     AllPostsComponent,
     LoginComponent,
-    KanbanComponent
+    KanbanComponent,
+    KanbanDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +54,9 @@ import { KanbanComponent } from './kanban/kanban.component';
     MatCardModule,
     MatMenuModule,
     MatSlideToggleModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
     DragDropModule,
     FormsModule,
   ],

@@ -46,7 +46,7 @@ export const environment = {
     baseUrl: 'https://kanban240527backend.azurestaticapps.net/'
 };
 ```
-
+____
 # deploy to Azure
 Use Azure Extension and
 - rightclick on *Static Web Apps
@@ -55,18 +55,18 @@ Use Azure Extension and
 - ...
 - ...
 
+____
 ## Routing 
-You need to add a **staticwebapp.config.json** in the root directory with the following content
+You need to add a **staticwebapp.config.json** in the root directory with the following content. Otherwise a deep link to subpages in an SPA won't work!!
 ```
 {
   //staticwebapp.config.json
-  
-  "routes": [
-    {
-      "route": "/*",
-      "serve": "/index.html",
-      "statusCode": 200
+
+  {
+    "navigationFallback": {
+      "rewrite": "/index.html",
+      "exclude": ["/images/*.{png,jpg,gif}", "/css/*"]
     }
-  ]
-}
+  }
 ```
+See also https://learn.microsoft.com/en-us/azure/static-web-apps/configuration#fallback-routes on this topic.

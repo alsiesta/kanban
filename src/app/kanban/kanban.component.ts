@@ -2,6 +2,9 @@ import { Component, OnDestroy } from '@angular/core';
 import { KanbanService } from '../services/kanban.service';
 import { Task } from '../models/tasks.model';
 import { NavigationEnd, Router } from '@angular/router';
+import {MatDialog, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
+import { KanbanDialogComponent } from '../kanban-dialog/kanban-dialog.component';
+import {MatButtonModule} from '@angular/material/button';
 
 import {
   CdkDragDrop,
@@ -14,12 +17,12 @@ import {
 @Component({
   selector: 'app-kanban',
   templateUrl: './kanban.component.html',
-  styleUrls: ['./kanban.component.scss']
+  styleUrls: ['./kanban.component.scss'],
 })
 
 
 export class KanbanComponent implements OnDestroy {
-  constructor (private kanbanService: KanbanService, private router: Router) { }
+  constructor (private kanbanService: KanbanService, private router: Router, public dialog: MatDialog) { }
   tasks: Task[] = [];
   initialTasksState: Task[] = [];
   initialTodo: string[] = [];
@@ -30,6 +33,16 @@ export class KanbanComponent implements OnDestroy {
   done = [''];
   inprogress = [''];
 
+
+  openDialog(taskId: string): void {
+  this.kanbanService.getTaskById(Number(taskId)).subscribe(task => {
+    this.dialog.open(KanbanDialogComponent, {
+      width: '80vw',
+      data: task
+    });
+  });
+}
+  
   ngOnInit () {
     this.kanbanService.getTasks().subscribe(tasks => {
       this.tasks = tasks;

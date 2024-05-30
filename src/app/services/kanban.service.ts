@@ -20,4 +20,11 @@ export class KanbanService {
     const url = environment.baseUrl + '/tasks/bulk_update/';
     return this.http.put(url, tasks);
   }
+
+  public getTaskById(id: number) {
+    const url = `${environment.baseUrl}/tasks/${id}/`;
+    return this.http.get<Task>(url);
+  }
+  
 }
+
