@@ -35,7 +35,7 @@ import { AllPostsComponent } from './all-posts/all-posts.component';
 import { LoginComponent } from './login/login.component';
 import { KanbanComponent } from './kanban/kanban.component';
 import { KanbanDialogComponent } from './kanban-dialog/kanban-dialog.component';
-import { KanganNewtaskComponent } from './kangan-newtask/kangan-newtask.component';
+import { KanbanNewtaskComponent } from './kanban-newtask/kanban-newtask.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +45,7 @@ import { KanganNewtaskComponent } from './kangan-newtask/kangan-newtask.componen
     LoginComponent,
     KanbanComponent,
     KanbanDialogComponent,
-    KanganNewtaskComponent,
+    KanbanNewtaskComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +72,7 @@ import { KanganNewtaskComponent } from './kangan-newtask/kangan-newtask.componen
     DragDropModule,
     FormsModule,
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

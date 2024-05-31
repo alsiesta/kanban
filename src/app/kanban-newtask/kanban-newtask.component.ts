@@ -4,11 +4,11 @@ import { KanbanService } from '../services/kanban.service';
 import { Task } from '../models/tasks.model';
 
 @Component({
-  selector: 'app-kangan-newtask',
-  templateUrl: './kangan-newtask.component.html',
-  styleUrls: ['./kangan-newtask.component.scss']
+  selector: 'app-kanban-newtask',
+  templateUrl: './kanban-newtask.component.html',
+  styleUrls: ['./kanban-newtask.component.scss']
 })
-export class KanganNewtaskComponent {
+export class KanbanNewtaskComponent {
   taskForm = new FormGroup({
     title: new FormControl(''),
     due_date: new FormControl(''),

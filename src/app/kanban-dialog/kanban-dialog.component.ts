@@ -3,11 +3,12 @@ import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-
+import { KanbanService } from '../services/kanban.service';
+import { Task } from '../models/tasks.model';
 export interface DialogData {
-  id: string;
-  created_at: string;
-  due_date: string;
+  id: number;
+  created_at: Date;
+  due_date: Date;
   title: string;
   description: string;
   priority: string;
@@ -24,10 +25,24 @@ export interface DialogData {
   styleUrls: ['./kanban-dialog.component.scss']
 })
 export class KanbanDialogComponent {
-  task: any;
+  task: Task = {
+    id: 0,
+    created_at: new Date(),
+    due_date: new Date(),
+    title: '',
+    description: '',
+    priority: '',
+    status: '',
+    color: '',
+    user: 0,
+    subtask: '',
+    order: 0
+  };
+  
+  editMode = false;
+  editMade = false;
 
-
-  constructor (
+  constructor (private kanbanService: KanbanService,
     public dialogRef: MatDialogRef<KanbanDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) { }
@@ -36,6 +51,31 @@ export class KanbanDialogComponent {
     this.task = this.data;
   }
 
+  checkChanges (task:Task) {
+    this.editMade = true;
+    // this.kanbanService.updateTask(task.id!, task).subscribe(
+    //   response => {
+    //     console.log(response);
+    //   },
+    //   error => {
+    //     console.error(error);
+    //   }
+    // );
+  }
+
+  saveChanges (task:Task) {
+    console.log(task);
+    this.editMade = true;
+    this.kanbanService.updateTask(task.id!, task).subscribe(
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+  
   getStatus (status: string): string {
     switch (status) {
       case 'T':

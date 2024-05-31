@@ -4,8 +4,7 @@ import { Task } from '../models/tasks.model';
 import { NavigationEnd, Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { KanbanDialogComponent } from '../kanban-dialog/kanban-dialog.component';
-import { KanganNewtaskComponent } from '../kangan-newtask/kangan-newtask.component';
-
+import { KanbanNewtaskComponent } from '../kanban-newtask/kanban-newtask.component';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -45,46 +44,49 @@ export class KanbanComponent implements OnDestroy {
 
   createTask (): void {
 
-    this.dialog.open(KanganNewtaskComponent, {
+    this.dialog.open(KanbanNewtaskComponent, {
       width: '80vw',
     });
   }
 
 
-  ngOnInit() {
-  this.fetchTasks();
-
-  this.kanbanService.taskAdded.subscribe(() => {
+  ngOnInit () {
     this.fetchTasks();
-  });
-}
 
-fetchTasks() {
-  this.kanbanService.getTasks().subscribe(tasks => {
-    this.tasks = tasks;
-    console.log(this.tasks);
-
-    // Clear the arrays
-    this.todo = [];
-    this.done = [];
-    this.inprogress = [];
-    this.initTaskCards();
-    this.initialTasksState = JSON.parse(JSON.stringify(this.tasks));
-
-    // Store the initial state of the tasks
-    this.initialTodo = [...this.todo];
-    this.initialInProgress = [...this.inprogress];
-    this.initialDone = [...this.done];
-
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd && event.url.startsWith('/task-detail')) {
-        if (this.needsUpdate()) {
-          this.updateTasks();
-        }
-      }
+    this.kanbanService.taskAdded.subscribe(() => {
+      this.fetchTasks();
     });
-  });
-}
+    this.kanbanService.taskUpdated.subscribe(() => {
+      this.fetchTasks();
+    });
+  }
+
+  fetchTasks () {
+    this.kanbanService.getTasks().subscribe(tasks => {
+      this.tasks = tasks;
+      console.log(this.tasks);
+
+      // Clear the arrays
+      this.todo = [];
+      this.done = [];
+      this.inprogress = [];
+      this.initTaskCards();
+      this.initialTasksState = JSON.parse(JSON.stringify(this.tasks));
+
+      // Store the initial state of the tasks
+      this.initialTodo = [...this.todo];
+      this.initialInProgress = [...this.inprogress];
+      this.initialDone = [...this.done];
+
+      this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd && event.url.startsWith('/task-detail')) {
+          if (this.needsUpdate()) {
+            this.updateTasks();
+          }
+        }
+      });
+    });
+  }
 
   needsUpdate (): boolean {
     // Compare the initial state to the current state and return true if there are any differences
@@ -117,24 +119,24 @@ fetchTasks() {
 
 
 
-initTaskCards () {
-  // Iterate over the tasks and push them into the appropriate arrays
-  for (let task of this.tasks) {
-    if (task.id !== undefined) {
-      switch (task.status) {
-        case 'T':
-          this.todo.push(task.id.toString());
-          break;
-        case 'I':
-          this.inprogress.push(task.id.toString());
-          break;
-        case 'D':
-          this.done.push(task.id.toString());
-          break;
+  initTaskCards () {
+    // Iterate over the tasks and push them into the appropriate arrays
+    for (let task of this.tasks) {
+      if (task.id !== undefined) {
+        switch (task.status) {
+          case 'T':
+            this.todo.push(task.id.toString());
+            break;
+          case 'I':
+            this.inprogress.push(task.id.toString());
+            break;
+          case 'D':
+            this.done.push(task.id.toString());
+            break;
+        }
       }
     }
   }
-}
 
 
   drop (event: CdkDragDrop<string[]>) {
@@ -176,19 +178,19 @@ initTaskCards () {
     }
   }
 
-  getColor(item: any): string {
+  getColor (item: any): string {
     const task = this.getTaskById(item);
     switch (task?.color) {
-        case 'G':
-            return 'green';
-        case 'Y':
-            return 'yellow';
-        case 'R':
-            return 'red';
-        default:
-            return 'lightgrey';
+      case 'G':
+        return 'green';
+      case 'Y':
+        return 'yellow';
+      case 'R':
+        return 'red';
+      default:
+        return 'lightgrey';
     }
-}
+  }
 
   getTaskById (id: string): Task | undefined {
     return this.tasks.find(task => task.id?.toString() === id);

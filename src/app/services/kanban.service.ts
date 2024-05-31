@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 export class KanbanService {
   // Add a new Subject
   taskAdded = new Subject<void>();
+  taskUpdated = new Subject<void>();
 
   constructor (private http: HttpClient) { }
 
@@ -32,7 +33,11 @@ export class KanbanService {
   public updateTask (id: number, task: Task) {
     console.log(task);
     const url = `${environment.baseUrl}/tasks/${id}/`;
-    return this.http.put<Task>(url, task);
+    return this.http.put<Task>(url, task).pipe(
+      tap(() => {
+        this.taskAdded.next();
+      })
+    );
   }
 
   public updateTasks (tasks: Task[]) {

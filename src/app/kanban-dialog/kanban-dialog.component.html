@@ -1,17 +1,92 @@
-<h2 mat-dialog-title>Task ID: {{ data.id }}</h2>
-<mat-dialog-content class="mat-typography">
-    <h2>{{ data.title }}</h2>
-    <p>Created at: {{ data.created_at | date:'dd.MM.yyyy'  }}</p>
-    <p>Due date: {{ data.due_date | date:'dd.MM.yyyy'  }}</p>
-    <p>Description: {{ data.description }}</p>
-    <p>Priority: {{ getPrio(data.priority) }}</p>
-    <p>Status: {{ getStatus(data.status) }}</p>
-    <p>Color: {{ getColor(data.color) }}</p>
-    <p>User: {{ data.user }}</p>
-    <p *ngIf="data.subtask; else noSubtasks">Subtask: {{ data.subtask }}</p>
-    <ng-template #noSubtasks><p>No Subtasks</p></ng-template>
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
-  </mat-dialog-actions>
+<form #taskForm="ngForm" (ngSubmit)="checkChanges(taskForm.value)">
+  <mat-dialog-content class="mat-typography">
+  <p>Task ID: {{ data.id }}, Created at: {{ data.created_at | date:'dd.MM.yyyy' }}</p>
+
+  <mat-form-field *ngIf="editMode">
+    <mat-label>Task title</mat-label>
+    <input matInput [(ngModel)]="data.title" name="title"/>
+  </mat-form-field>
+  <span *ngIf="!editMode">Task: <span style="color: black; font-weight: bold;">{{ data.title }}</span></span>
+  <p>
+    <mat-form-field *ngIf="editMode">
+      <mat-label>Due date</mat-label>
+      <input matInput [(ngModel)]="data.due_date" type="date" name="date"/>
+    </mat-form-field>
+    <span *ngIf="!editMode">Due Date: <span style="color: black; font-weight: bold;">{{ data.due_date | date:'dd.MM.yyyy' }}</span></span>
+  </p>
+  <p>
+    <mat-form-field *ngIf="editMode">
+      <mat-label>Description</mat-label>
+      <input matInput [(ngModel)]="data.description" name="description"/>
+    </mat-form-field>
+    <span *ngIf="!editMode">Description: <span style="color: black; font-weight: bold;">{{ data.description }}</span></span>
+  </p>
+  <p>
+    <mat-form-field *ngIf="editMode">
+      <mat-label>Priority</mat-label>
+      <mat-select [(ngModel)]="data.priority" name="priority">
+        <mat-option value="L">Low</mat-option>
+        <mat-option value="M">Medium</mat-option>
+        <mat-option value="H">High</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span *ngIf="!editMode">Priority: <span style="color: black; font-weight: bold;">{{ getPrio(data.priority) }}</span></span>
+  </p>
+  <p>
+    <mat-form-field *ngIf="editMode">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="data.status" name="status">
+        <mat-option value="T">To Do</mat-option>
+        <mat-option value="I">In Progress</mat-option>
+        <mat-option value="D">Done</mat-option>
+    </mat-select>
+    </mat-form-field>
+    <span *ngIf="!editMode">Status: <span style="color: black; font-weight: bold;">{{ getStatus(data.status) }}</span></span>
+  </p>
+  <p>
+    <mat-form-field *ngIf="editMode">
+      <mat-label>Color</mat-label>
+      <mat-select [(ngModel)]="data.color" name="color">
+        <mat-option value="G">
+            <span class="dot green"></span>
+            <span> Green</span>
+        </mat-option>
+        <mat-option value="Y">
+            <span class="dot yellow"></span>
+            <span> Yellow</span>
+        </mat-option>
+        <mat-option value="R">
+            <span class="dot red"></span>
+            <span> Red</span>
+        </mat-option>
+    </mat-select>
+    </mat-form-field>
+    <span *ngIf="!editMode">Color: <span style="color: black; font-weight: bold;">{{ getColor(data.color) }}</span></span>
+  </p>
+  <!-- <p>
+    <mat-form-field *ngIf="editMode">
+      <mat-label>User</mat-label>
+      <input matInput [(ngModel)]="data.user" name="user"/>
+    </mat-form-field>
+    <span *ngIf="!editMode">{{ data.user }}</span>
+  </p> -->
+  <p *ngIf="data.subtask; else noSubtasks">
+    <mat-form-field *ngIf="editMode">
+      <mat-label>Subtask</mat-label>
+      <input matInput [(ngModel)]="data.subtask" name="subtask"/>
+    </mat-form-field>
+    <span *ngIf="!editMode">Subtasks: <span style="color: black; font-weight: bold;">{{ data.subtask }}</span></span>
+  </p>
+  <ng-template #noSubtasks>
+    <p>No Subtasks</p>
+  </ng-template>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button *ngIf="!editMode" (click)="editMode = true">Edit</button>
+  <button mat-raised-button color="accent" *ngIf="editMode" (click)="editMode = false; checkChanges(data)" cdkFocusInitial>Check</button>
+  <button mat-raised-button color="warn" *ngIf="editMade && !editMode" (click)="saveChanges(data)" mat-dialog-close>Save</button>
+</mat-dialog-actions>
+</form>
