@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>Create New Task</h2>
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit(taskForm.value)">
+    <mat-dialog-content class="mat-typography">
+        <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" required="true">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Due date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="due_date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Priority</mat-label>
+            <mat-select formControlName="priority">
+                <mat-option value="L">Low</mat-option>
+                <mat-option value="M">Medium</mat-option>
+                <mat-option value="H">High</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+                <mat-option value="T">To Do</mat-option>
+                <mat-option value="I">In Progress</mat-option>
+                <mat-option value="D">Done</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Color</mat-label>
+            <mat-select formControlName="color">
+                <mat-option value="G">
+                    <span class="dot green"></span>
+                    <span> Green</span>
+                </mat-option>
+                <mat-option value="Y">
+                    <span class="dot yellow"></span>
+                    <span> Yellow</span>
+                </mat-option>
+                <mat-option value="R">
+                    <span class="dot red"></span>
+                    <span> Red</span>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!-- Assuming user is a number -->
+        <mat-form-field>
+            <mat-label>User</mat-label>
+            <input matInput formControlName="user" type="number">
+        </mat-form-field>
+        <!-- Assuming subtask is a number -->
+        <mat-form-field>
+            <mat-label>Subtask</mat-label>
+            <input matInput formControlName="subtask" type="number">
+        </mat-form-field>
+       <div>* fields are required</div> 
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial type="submit">Create</button>
+    </mat-dialog-actions>
+</form>

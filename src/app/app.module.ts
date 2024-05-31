@@ -23,12 +23,19 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+
+
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AllPostsComponent } from './all-posts/all-posts.component';
 import { LoginComponent } from './login/login.component';
 import { KanbanComponent } from './kanban/kanban.component';
 import { KanbanDialogComponent } from './kanban-dialog/kanban-dialog.component';
+import { KanganNewtaskComponent } from './kangan-newtask/kangan-newtask.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +45,7 @@ import { KanbanDialogComponent } from './kanban-dialog/kanban-dialog.component';
     LoginComponent,
     KanbanComponent,
     KanbanDialogComponent,
+    KanganNewtaskComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +65,10 @@ import { KanbanDialogComponent } from './kanban-dialog/kanban-dialog.component';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
     DragDropModule,
     FormsModule,
   ],
