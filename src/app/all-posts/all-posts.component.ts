@@ -17,7 +17,6 @@ export class AllPostsComponent {
 
   async ngOnInit () {
     this.posts = await this.handleApiCall(this.loadPosts(), 'Fehler beim Laden');
-    console.log(this.posts);
   }
 
   addPost () {
@@ -40,7 +39,6 @@ export class AllPostsComponent {
 
     this.http.put(url, updatedPost).subscribe(
       response => {
-        console.log(response);
         this.loadPosts().then(posts => {
           this.posts = posts;
         });
@@ -64,7 +62,6 @@ export class AllPostsComponent {
 
   this.http.delete(url).subscribe(
     response => {
-      console.log(response);
       this.loadPosts().then(posts => {
         this.posts = posts;
       });

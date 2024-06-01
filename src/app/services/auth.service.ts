@@ -7,9 +7,10 @@ import { lastValueFrom } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+  redirectUrl: string = '';
+  
   constructor (private http:HttpClient) { }
   
-
   public loginWithUsernameAndPassword (username: string, password: string) {
     const url = environment.baseUrl + '/login/';
     const body = {

@@ -1,5 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { KanbanService } from '../services/kanban.service';
+import { AuthService } from '../services/auth.service';
+
 import { Task } from '../models/tasks.model';
 import { NavigationEnd, Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
@@ -21,7 +23,12 @@ import {
 
 
 export class KanbanComponent implements OnDestroy {
-  constructor (private kanbanService: KanbanService, private router: Router, public dialog: MatDialog) { }
+  constructor (
+    private kanbanService: KanbanService,
+    private router: Router,
+    public dialog: MatDialog,
+    private authService: AuthService
+  ) { }
   tasks: Task[] = [];
   initialTasksState: Task[] = [];
   initialTodo: string[] = [];
@@ -31,7 +38,16 @@ export class KanbanComponent implements OnDestroy {
   todo = [''];
   done = [''];
   inprogress = [''];
+  error = '';
 
+  async handleApiCall (apiCall: Promise<any>, errorMessage: string) {
+    try {
+      return await apiCall;
+    } catch (e) {
+      this.error = errorMessage;
+      console.error('Error:', e);
+    }
+  }
 
   openDialog (taskId: string): void {
     this.kanbanService.getTaskById(Number(taskId)).subscribe(task => {
@@ -51,7 +67,7 @@ export class KanbanComponent implements OnDestroy {
 
 
   ngOnInit () {
-    this.fetchTasks();
+     this.fetchTasks();
 
     this.kanbanService.taskAdded.subscribe(() => {
       this.fetchTasks();
@@ -64,7 +80,6 @@ export class KanbanComponent implements OnDestroy {
   fetchTasks () {
     this.kanbanService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
-      console.log(this.tasks);
 
       // Clear the arrays
       this.todo = [];
@@ -113,7 +128,6 @@ export class KanbanComponent implements OnDestroy {
 
     // Call a method on kanbanService to update the tasks on the backend
     this.kanbanService.updateTasks(this.tasks).subscribe(() => {
-      console.log('Tasks updated');
     });
   }
 

@@ -64,11 +64,10 @@ export class KanbanDialogComponent {
   }
 
   saveChanges (task:Task) {
-    console.log(task);
     this.editMade = true;
     this.kanbanService.updateTask(task.id!, task).subscribe(
       response => {
-        console.log(response);
+        console.log('DB was updated: ',response);
       },
       error => {
         console.error(error);

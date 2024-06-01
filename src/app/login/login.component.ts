@@ -12,15 +12,16 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  constructor(private http:HttpClient, private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   async login () {
     try {
-      let response:any = await this.auth.loginWithUsernameAndPassword(this.username, this.password);
-      console.log(response);
+      const response:any = await this.auth.loginWithUsernameAndPassword(this.username, this.password);
       localStorage.setItem('token', response.token);
       localStorage.setItem('user_id', response.user_id);
-      this.router.navigate(['/posts']);
+      // this.router.navigate(['/posts']);
+      this.router.navigateByUrl(this.auth.redirectUrl || '/');
+      this.auth.redirectUrl = ''; // Clear the stored URL
       
     } catch (error) {
       alert('Login failed');

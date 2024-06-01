@@ -48,7 +48,7 @@ export class KanbanNewtaskComponent {
 
   this.kanbanService.createTask(taskData).subscribe(
     response => {
-      console.log(response);
+      console.log('Task was created: ', response);
     },
     error => {
       console.error(error);

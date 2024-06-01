@@ -2,13 +2,15 @@ import { Component, OnDestroy } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, Subject } from 'rxjs';
 import { map, shareReplay, takeUntil } from 'rxjs/operators';
-
+import { KanbanService } from '../services/kanban.service';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnDestroy {
+  
   private breakpointObserver: BreakpointObserver;
   isDarkTheme: boolean = false;
   destroyed = new Subject<void>();
@@ -22,7 +24,7 @@ export class NavComponent implements OnDestroy {
     ['(min-width: 1920px)', '4k'],
   ]);
 
-  constructor(breakpointObserver: BreakpointObserver) {
+  constructor(private http: HttpClient, breakpointObserver: BreakpointObserver, private kanbanService: KanbanService) {
     this.breakpointObserver = breakpointObserver;
     this.breakpointObserver
       .observe(Array.from(this.displayNameMap.keys()))
