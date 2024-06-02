@@ -18,6 +18,8 @@
                     <div class="color-line" [ngStyle]="{'background-color': getColor(item)}"></div>
                     <div class="small_text">{{ getTaskById(item)?.description }}</div>
                 </div>
+                <div class="bold">{{ getTaskById(item)?.order }}</div>
+                <div class="bold">ID: {{ getTaskById(item)?.id }}</div>
                 <div>
                     <button mat-button (click)="openDialog(item)">Detail</button>
 
@@ -38,6 +40,8 @@
                     <div class="color-line" [ngStyle]="{'background-color': getColor(item)}"></div>
                     <div class="small_text">{{ getTaskById(item)?.description }}</div>
                 </div>
+                <div class="bold">{{ getTaskById(item)?.order }}</div>
+                <div class="bold">ID: {{ getTaskById(item)?.id }}</div>
                 <div>
                     <button mat-button (click)="openDialog(item)">Detail</button>
 
@@ -59,6 +63,8 @@
                     <div class="color-line" [ngStyle]="{'background-color': getColor(item)}"></div>
                     <div class="small_text">{{ getTaskById(item)?.description }}</div>
                 </div>
+                <div class="bold">{{ getTaskById(item)?.order }}</div>
+                <div class="bold">ID: {{ getTaskById(item)?.id }}</div>
                 <div>
                     <button mat-button (click)="openDialog(item)">Detail</button>
 

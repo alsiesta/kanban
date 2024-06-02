@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { KanbanService } from '../services/kanban.service';
 import { AuthService } from '../services/auth.service';
 
@@ -22,23 +22,51 @@ import {
 })
 
 
-export class KanbanComponent implements OnDestroy {
+export class KanbanComponent {
   constructor (
     private kanbanService: KanbanService,
-    private router: Router,
     public dialog: MatDialog,
-    private authService: AuthService
   ) { }
+
+  containerData: any;
   tasks: Task[] = [];
-  initialTasksState: Task[] = [];
   initialTodo: string[] = [];
   initialInProgress: string[] = [];
   initialDone: string[] = [];
 
-  todo = [''];
-  done = [''];
-  inprogress = [''];
+  todo: string[] = [];
+  done: string[] = [];
+  inprogress: string[] = [];
   error = '';
+
+  ngOnInit () {
+    this.fetchTasks();
+    this.kanbanService.taskAdded.subscribe(() => { this.fetchTasks(); });
+    this.kanbanService.taskUpdated.subscribe(() => { this.fetchTasks(); });
+  }
+
+  fetchTasks () {
+    this.kanbanService.getTasks().subscribe(tasks => {
+
+      // Check if the tasks have changed
+      if (JSON.stringify(tasks) !== JSON.stringify(this.tasks)) {
+        this.tasks = tasks;
+
+        // Clear the arrays
+        this.todo = [];
+        this.done = [];
+        this.inprogress = [];
+
+        // Initialize the task cards
+        this.initTaskCards();
+      }
+    }, error => {
+      // Handle error
+      this.error = 'Failed to fetch tasks';
+      console.error(error);
+    });
+  }
+
 
   async handleApiCall (apiCall: Promise<any>, errorMessage: string) {
     try {
@@ -66,49 +94,10 @@ export class KanbanComponent implements OnDestroy {
   }
 
 
-  ngOnInit () {
-     this.fetchTasks();
 
-    this.kanbanService.taskAdded.subscribe(() => {
-      this.fetchTasks();
-    });
-    this.kanbanService.taskUpdated.subscribe(() => {
-      this.fetchTasks();
-    });
-  }
 
-  fetchTasks () {
-    this.kanbanService.getTasks().subscribe(tasks => {
-      this.tasks = tasks;
 
-      // Clear the arrays
-      this.todo = [];
-      this.done = [];
-      this.inprogress = [];
-      this.initTaskCards();
-      this.initialTasksState = JSON.parse(JSON.stringify(this.tasks));
 
-      // Store the initial state of the tasks
-      this.initialTodo = [...this.todo];
-      this.initialInProgress = [...this.inprogress];
-      this.initialDone = [...this.done];
-
-      this.router.events.subscribe(event => {
-        if (event instanceof NavigationEnd && event.url.startsWith('/task-detail')) {
-          if (this.needsUpdate()) {
-            this.updateTasks();
-          }
-        }
-      });
-    });
-  }
-
-  needsUpdate (): boolean {
-    // Compare the initial state to the current state and return true if there are any differences
-    return JSON.stringify(this.initialTodo) !== JSON.stringify(this.todo) ||
-      JSON.stringify(this.initialInProgress) !== JSON.stringify(this.inprogress) ||
-      JSON.stringify(this.initialDone) !== JSON.stringify(this.done);
-  }
 
   updateTasks () {
     // Iterate over each array
@@ -134,6 +123,8 @@ export class KanbanComponent implements OnDestroy {
 
 
   initTaskCards () {
+    // Sort the tasks by their order
+    this.tasks.sort((a, b) => (a.order !== undefined ? a.order : Infinity) - (b.order !== undefined ? b.order : Infinity));
     // Iterate over the tasks and push them into the appropriate arrays
     for (let task of this.tasks) {
       if (task.id !== undefined) {
@@ -156,6 +147,7 @@ export class KanbanComponent implements OnDestroy {
   drop (event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -167,9 +159,8 @@ export class KanbanComponent implements OnDestroy {
 
     // Get the task that was dropped
     const taskId = event.item.data;
-
     const task = this.tasks.find(task => task.id?.toString() === taskId);
-
+    this.containerData = event.container.data;
     if (task) {
       // Update the status based on the container where the task was dropped
       if (event.container.id === 'cdk-drop-list-0') {
@@ -180,15 +171,11 @@ export class KanbanComponent implements OnDestroy {
         task.status = 'D';
       }
 
-      // Update the task in the backend
-      this.kanbanService.updateTask(task.id!, task).subscribe(
-        response => {
-          console.log(response);
-        },
-        error => {
-          console.error(error);
-        }
-      );
+      // Update the order of the task
+      task.order = event.container.data.indexOf(taskId);
+
+      this.updateTasks();
+
     }
   }
 
@@ -210,11 +197,6 @@ export class KanbanComponent implements OnDestroy {
     return this.tasks.find(task => task.id?.toString() === id);
   }
 
-  ngOnDestroy () {
-    if (this.needsUpdate()) {
-      this.updateTasks();
-    }
-  }
 
 
 }
