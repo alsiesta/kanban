@@ -31,7 +31,6 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-import { AllPostsComponent } from './all-posts/all-posts.component';
 import { LoginComponent } from './login/login.component';
 import { KanbanComponent } from './kanban/kanban.component';
 import { KanbanDialogComponent } from './kanban-dialog/kanban-dialog.component';
@@ -41,7 +40,6 @@ import { KanbanNewtaskComponent } from './kanban-newtask/kanban-newtask.componen
     AppComponent,
     NavComponent,
     HomeComponent,
-    AllPostsComponent,
     LoginComponent,
     KanbanComponent,
     KanbanDialogComponent,

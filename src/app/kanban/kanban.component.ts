@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { KanbanService } from '../services/kanban.service';
-import { AuthService } from '../services/auth.service';
 
 import { Task } from '../models/tasks.model';
-import { NavigationEnd, Router } from '@angular/router';
-import { MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { KanbanDialogComponent } from '../kanban-dialog/kanban-dialog.component';
 import { KanbanNewtaskComponent } from '../kanban-newtask/kanban-newtask.component';
 import {
@@ -21,12 +19,8 @@ import {
   styleUrls: ['./kanban.component.scss'],
 })
 
-
 export class KanbanComponent {
-  constructor (
-    private kanbanService: KanbanService,
-    public dialog: MatDialog,
-  ) { }
+  user: any;
 
   containerData: any;
   tasks: Task[] = [];
@@ -39,34 +33,39 @@ export class KanbanComponent {
   inprogress: string[] = [];
   error = '';
 
+  constructor (
+    private kanbanService: KanbanService,
+    public dialog: MatDialog,
+  ) { this.loadUser(); }
+
   ngOnInit () {
     this.fetchTasks();
     this.kanbanService.taskAdded.subscribe(() => { this.fetchTasks(); });
     this.kanbanService.taskUpdated.subscribe(() => { this.fetchTasks(); });
   }
 
+  loadUser () {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.user = JSON.parse(user);
+      console.log('User:', this.user);
+    }
+  }
+
   fetchTasks () {
     this.kanbanService.getTasks().subscribe(tasks => {
-
-      // Check if the tasks have changed
       if (JSON.stringify(tasks) !== JSON.stringify(this.tasks)) {
         this.tasks = tasks;
-
-        // Clear the arrays
         this.todo = [];
         this.done = [];
         this.inprogress = [];
-
-        // Initialize the task cards
         this.initTaskCards();
       }
     }, error => {
-      // Handle error
       this.error = 'Failed to fetch tasks';
       console.error(error);
     });
   }
-
 
   async handleApiCall (apiCall: Promise<any>, errorMessage: string) {
     try {
@@ -87,45 +86,27 @@ export class KanbanComponent {
   }
 
   createTask (): void {
-
     this.dialog.open(KanbanNewtaskComponent, {
       width: '80vw',
     });
   }
 
-
-
-
-
-
-
   updateTasks () {
-    // Iterate over each array
     [this.todo, this.inprogress, this.done].forEach((statusArray, index) => {
-      // For each task ID in the array
       statusArray.forEach((taskId, i) => {
-        // Find the corresponding task in this.tasks
         const task = this.tasks.find(task => task.id?.toString() === taskId);
         if (task) {
-          // Update its status
           task.status = ['T', 'I', 'D'][index];
-          // Update its order
           task.order = i;
         }
       });
     });
-
-    // Call a method on kanbanService to update the tasks on the backend
     this.kanbanService.updateTasks(this.tasks).subscribe(() => {
     });
   }
 
-
-
   initTaskCards () {
-    // Sort the tasks by their order
     this.tasks.sort((a, b) => (a.order !== undefined ? a.order : Infinity) - (b.order !== undefined ? b.order : Infinity));
-    // Iterate over the tasks and push them into the appropriate arrays
     for (let task of this.tasks) {
       if (task.id !== undefined) {
         switch (task.status) {
@@ -143,11 +124,9 @@ export class KanbanComponent {
     }
   }
 
-
   drop (event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -156,13 +135,10 @@ export class KanbanComponent {
         event.currentIndex,
       );
     }
-
-    // Get the task that was dropped
     const taskId = event.item.data;
     const task = this.tasks.find(task => task.id?.toString() === taskId);
     this.containerData = event.container.data;
     if (task) {
-      // Update the status based on the container where the task was dropped
       if (event.container.id === 'cdk-drop-list-0') {
         task.status = 'T';
       } else if (event.container.id === 'cdk-drop-list-1') {
@@ -170,12 +146,8 @@ export class KanbanComponent {
       } else if (event.container.id === 'cdk-drop-list-2') {
         task.status = 'D';
       }
-
-      // Update the order of the task
       task.order = event.container.data.indexOf(taskId);
-
       this.updateTasks();
-
     }
   }
 
@@ -196,7 +168,4 @@ export class KanbanComponent {
   getTaskById (id: string): Task | undefined {
     return this.tasks.find(task => task.id?.toString() === id);
   }
-
-
-
 }

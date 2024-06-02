@@ -1,5 +1,18 @@
-<form (ngSubmit)="login()">
-    <input type="text" name="username" [(ngModel)]="username" required>
-    <input type="password" name="password" [(ngModel)]="password" required>
-    <button>Login</button>
-</form>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Django Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form class="form" (ngSubmit)="login()" fxLayout="column" fxLayoutGap="20px">
+            <mat-form-field appearance="fill">
+                <mat-label>Username</mat-label>
+                <input matInput type="text" name="username" [(ngModel)]="username" required>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" name="password" [(ngModel)]="password" required>
+            </mat-form-field>
+            <button mat-raised-button color="primary">Login</button>
+        </form>
+    </mat-card-content>
+</mat-card>

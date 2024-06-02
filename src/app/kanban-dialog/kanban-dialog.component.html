@@ -87,6 +87,7 @@
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button *ngIf="!editMode" (click)="editMode = true">Edit</button>
   <button mat-raised-button color="accent" *ngIf="editMode" (click)="editMode = false; checkChanges(data)" cdkFocusInitial>Check</button>
+  <button mat-raised-button mat-dialog-close color="warn" *ngIf="editMode" (click)="deleteTask(data)" cdkFocusInitial>Delete</button>
   <button mat-raised-button color="warn" *ngIf="editMade && !editMode" (click)="saveChanges(data)" mat-dialog-close>Save</button>
 </mat-dialog-actions>
 </form>

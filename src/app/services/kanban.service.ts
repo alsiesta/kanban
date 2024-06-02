@@ -20,7 +20,7 @@ export class KanbanService {
     return this.http.get<Task[]>(url);
   }
 
-  
+
 
   public createTask (task: Task) {
     const url = `${environment.baseUrl}/tasks/`;
@@ -34,6 +34,15 @@ export class KanbanService {
   public updateTask (id: number, task: Task) {
     const url = `${environment.baseUrl}/tasks/${id}/`;
     return this.http.put<Task>(url, task).pipe(
+      tap(() => {
+        this.taskAdded.next();
+      })
+    );
+  }
+
+  public deleteTask (id: number) {
+    const url = `${environment.baseUrl}/tasks/${id}/`;
+    return this.http.delete(url).pipe(
       tap(() => {
         this.taskAdded.next();
       })

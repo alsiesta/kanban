@@ -53,14 +53,17 @@ export class KanbanDialogComponent {
 
   checkChanges (task:Task) {
     this.editMade = true;
-    // this.kanbanService.updateTask(task.id!, task).subscribe(
-    //   response => {
-    //     console.log(response);
-    //   },
-    //   error => {
-    //     console.error(error);
-    //   }
-    // );
+  }
+
+  deleteTask (task: Task) {
+    this.kanbanService.deleteTask(task.id!).subscribe(
+      response => {
+        console.log('Task was deleted: ', response);
+      },
+      error => {
+        console.error(error);
+      }
+    );
   }
 
   saveChanges (task:Task) {

@@ -1,7 +1,11 @@
 <div class="main_container">
+   
+        <div style="display: flex; justify-content: center; align-items: center; flex-direction:column;">
+            <span style="font-size: large; font-weight: bold">Welcome, {{ user.username }}!</span>
 
-        <div style="display: flex; justify-content: center;">
-            <button mat-raised-button color="primary" (click)="createTask()">Create new Task</button>
+            <span style="color: red; text-align:center" *ngIf="user.usertype == 'normaluser'">As regular user, you can create and move tasks, but you cannot alter or delete them, after you created them!</span>
+            <span style="color: red; text-align:center" *ngIf="user.usertype == 'superuser'">You are a superuser!</span>
+            <button style="margin-top: 30px;" mat-raised-button color="primary" (click)="createTask()">Create new Task</button>
         </div>
 
 
@@ -18,11 +22,8 @@
                     <div class="color-line" [ngStyle]="{'background-color': getColor(item)}"></div>
                     <div class="small_text">{{ getTaskById(item)?.description }}</div>
                 </div>
-                <div class="bold">{{ getTaskById(item)?.order }}</div>
-                <div class="bold">ID: {{ getTaskById(item)?.id }}</div>
                 <div>
-                    <button mat-button (click)="openDialog(item)">Detail</button>
-
+                    <button mat-button  (click)="openDialog(item)">Detail</button>
                 </div>
             </div>
         </div>
@@ -40,8 +41,6 @@
                     <div class="color-line" [ngStyle]="{'background-color': getColor(item)}"></div>
                     <div class="small_text">{{ getTaskById(item)?.description }}</div>
                 </div>
-                <div class="bold">{{ getTaskById(item)?.order }}</div>
-                <div class="bold">ID: {{ getTaskById(item)?.id }}</div>
                 <div>
                     <button mat-button (click)="openDialog(item)">Detail</button>
 
@@ -63,8 +62,6 @@
                     <div class="color-line" [ngStyle]="{'background-color': getColor(item)}"></div>
                     <div class="small_text">{{ getTaskById(item)?.description }}</div>
                 </div>
-                <div class="bold">{{ getTaskById(item)?.order }}</div>
-                <div class="bold">ID: {{ getTaskById(item)?.id }}</div>
                 <div>
                     <button mat-button (click)="openDialog(item)">Detail</button>
 

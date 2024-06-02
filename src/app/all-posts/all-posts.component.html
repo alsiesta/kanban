@@ -1,9 +1,0 @@
-<h1>{{error}}</h1>
-
-<form (submit)="addPost()">
-    <input type="text" [(ngModel)]="newPost" name="newPost">
-    <button type="submit">Add Post</button>
-  </form>
-<div *ngFor="let post of posts">
-    <input [(id)]="post.id" type="checkbox" [checked]="post.checked" (change)="onCheckboxChange($event, post)"> {{ post.title }} <a class="mini-link" href="#" (click)="deletePost($event, post.id)">Delete</a> 
-</div>

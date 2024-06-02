@@ -1,11 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { Content } from '../models/content.model';  
-import { switchMap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-home',
@@ -14,7 +11,6 @@ import { switchMap } from 'rxjs/operators';
 })
 
 export class HomeComponent {
-  private breakpointObserver = inject(BreakpointObserver);
   contents: any = [];
   error = '';
   constructor (private http: HttpClient) { }
