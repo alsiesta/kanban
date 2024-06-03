@@ -1,4 +1,5 @@
-<mat-card>
+<!-- Login Form -->
+<mat-card *ngIf="isLoggingIn">
     <mat-card-header>
         <mat-card-title>Django Login</mat-card-title>
     </mat-card-header>
@@ -12,7 +13,45 @@
                 <mat-label>Password</mat-label>
                 <input matInput type="password" name="password" [(ngModel)]="password" required>
             </mat-form-field>
+            <div class="info">* mandatory fields</div>
             <button mat-raised-button color="primary">Login</button>
         </form>
+        <div class="info">
+            <a mat-button  (click)="switchState($event)">Don't have an account? Sign up</a>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<!-- Signup Form -->
+<mat-card *ngIf="isSigningUp && !isLoggingIn">
+    <mat-card-header>
+        <mat-card-title>OK. Let's get you signed up.</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form class="form" (ngSubmit)="signup()" fxLayout="column" fxLayoutGap="20px">
+            <mat-form-field appearance="fill">
+                <mat-label>Username</mat-label>
+                <input matInput type="text" name="username" [(ngModel)]="username" required>
+            </mat-form-field>
+            <!-- Add this line -->
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" name="email" [(ngModel)]="email" required>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" name="password" [(ngModel)]="password" required>
+            </mat-form-field>
+            <!-- Add this line -->
+            <mat-form-field appearance="fill">
+                <mat-label>Repeat Password</mat-label>
+                <input matInput type="password" name="passwordRepeat" [(ngModel)]="passwordRepeat" required>
+            </mat-form-field>
+            <div class="info">* mandatory fields</div>
+            <button mat-raised-button color="primary">Sign up</button>
+        </form>
+        <div class="info">
+        <a mat-button (click)="switchState($event)">Back to Login</a>
+        </div>
     </mat-card-content>
 </mat-card>

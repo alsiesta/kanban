@@ -4,6 +4,9 @@ import { Observable, Subject } from 'rxjs';
 import { map, shareReplay, takeUntil } from 'rxjs/operators';
 import { KanbanService } from '../services/kanban.service';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../services/auth.service';
+
+
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -24,7 +27,7 @@ export class NavComponent implements OnDestroy {
     ['(min-width: 1920px)', '4k'],
   ]);
 
-  constructor(private http: HttpClient, breakpointObserver: BreakpointObserver, private kanbanService: KanbanService) {
+  constructor( breakpointObserver: BreakpointObserver, public auth: AuthService) {
     this.breakpointObserver = breakpointObserver;
     this.breakpointObserver
       .observe(Array.from(this.displayNameMap.keys()))
@@ -38,7 +41,9 @@ export class NavComponent implements OnDestroy {
       });
   }
 
-
+  logout() {
+    this.auth.logout();
+  }
   
   toggleTheme() {
     this.isDarkTheme = !this.isDarkTheme;

@@ -18,6 +18,7 @@
         <span class="header-nav"><a class="link" routerLink="/kanban">Kanban</a></span>
         <span class="header-nav"><a class="link" routerLink="/home">Home</a></span>
       </div>
+      <button class="logout" mat-raised-button (click)="logout()" *ngIf="auth.isLoggedIn">Logout</button>
       <mat-icon (click)="toggleTheme()">
         {{isDarkTheme ? 'bedtime' : 'sunny'}}
       </mat-icon>

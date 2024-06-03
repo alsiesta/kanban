@@ -11,12 +11,16 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   username: string = '';
   password: string = '';
+  isLoggingIn: boolean = true;
+  isSigningUp: boolean = false;
+  email: string = '';
+  passwordRepeat: string = '';
 
   constructor(private auth: AuthService, private router: Router) {}
 
   async login () {
     try {
-      const response: any = await this.auth.loginWithUsernameAndPassword(this.username, this.password);
+      const response: any = await this.auth.loginWithToken(this.username, this.password);
       console.log('Response:', response);
 
 
@@ -35,7 +39,8 @@ export class LoginComponent {
       localStorage.setItem('user', JSON.stringify(user));
    
 
-      this.router.navigateByUrl(this.auth.redirectUrl || '/');
+      this.router.navigateByUrl(this.auth.redirectUrl || '/kanban');
+      console.log('Redirect URL:', this.auth.redirectUrl);
       this.auth.redirectUrl = ''; // Clear the stored URL
       
     } catch (error) {
@@ -45,6 +50,25 @@ export class LoginComponent {
 
   }
 
+  public switchState(event: Event) {
+    event.preventDefault();
+    this.isLoggingIn = !this.isLoggingIn;
+    this.isSigningUp = !this.isSigningUp;
+  }
+
+
+  async signup () {
+    try {
+      const response: any = await this.auth.signUp(this.username, this.password, this.email);
+      console.log('Following User was created: ', response);
+
+      this.isLoggingIn = !this.isLoggingIn;
+      this.isSigningUp = !this.isSigningUp;
+      
+    } catch (error:any) {
+      console.error('Error:', error);
+    }
+  }
 
   ngOnInit(): void {}
 }

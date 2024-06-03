@@ -35,6 +35,11 @@ export class HomeComponent {
     }
   }
 
+  public createUser(event: Event) {
+  event.preventDefault();
+  // Your code to create a user goes here
+  }
+  
   handleError (error: any) {
     console.error('Error:', error);
     this.error = 'An unexpected error occurred';
