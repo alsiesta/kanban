@@ -9,7 +9,6 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class KanbanService {
-  // Add a new Subject
   taskAdded = new Subject<void>();
   taskUpdated = new Subject<void>();
 

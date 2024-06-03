@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -15,8 +16,16 @@ export class LoginComponent {
   isSigningUp: boolean = false;
   email: string = '';
   passwordRepeat: string = '';
+  signupForm: FormGroup;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor (private auth: AuthService, private router: Router, private fb: FormBuilder) {
+    this.signupForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(4)]],
+      email: ['', [Validators.required, Validators.email]],
+      passwordRepeat: ['', [Validators.required]]
+    });
+  }
 
   async login () {
     try {
@@ -58,6 +67,10 @@ export class LoginComponent {
 
 
   async signup () {
+    if (this.signupForm.invalid) {
+      alert('Please fill out all fields correctly');
+      return;
+    }
     try {
       const response: any = await this.auth.signUp(this.username, this.password, this.email);
       console.log('Following User was created: ', response);

@@ -28,24 +28,26 @@
         <mat-card-title>OK. Let's get you signed up.</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <form class="form" (ngSubmit)="signup()" fxLayout="column" fxLayoutGap="20px">
+        <form class="form" [formGroup]="signupForm" (ngSubmit)="signup()" fxLayout="column" fxLayoutGap="20px">
             <mat-form-field appearance="fill">
                 <mat-label>Username</mat-label>
-                <input matInput type="text" name="username" [(ngModel)]="username" required>
+                <input formControlName="username" placeholder="Username" matInput type="text" name="username" [(ngModel)]="username" required>
             </mat-form-field>
-            <!-- Add this line -->
+            
+            
             <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
-                <input matInput type="email" name="email" [(ngModel)]="email" required>
+                <input formControlName="email" placeholder="Email" matInput type="email" name="email" [(ngModel)]="email" required>
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input matInput type="password" name="password" [(ngModel)]="password" required>
+                <input formControlName="password" placeholder="Password" matInput type="password" name="password" [(ngModel)]="password" required>
             </mat-form-field>
-            <!-- Add this line -->
+            
+            
             <mat-form-field appearance="fill">
                 <mat-label>Repeat Password</mat-label>
-                <input matInput type="password" name="passwordRepeat" [(ngModel)]="passwordRepeat" required>
+                <input formControlName="passwordRepeat" placeholder="Repeat Password"  matInput type="password" name="passwordRepeat" [(ngModel)]="passwordRepeat" required>
             </mat-form-field>
             <div class="info">* mandatory fields</div>
             <button mat-raised-button color="primary">Sign up</button>

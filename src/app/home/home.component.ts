@@ -16,15 +16,17 @@ export class HomeComponent {
   constructor (private http: HttpClient) { }
 
   async ngOnInit () {
-    this.contents = await this.handleApiCall(this.loadContents(), 'Fehler beim Laden');
+    this.contents = await this.handleApiCall(this.loadContents(), 'Error loading images from Cloud Server');
   }
 
 
   loadContents () {
     const url = `${environment.baseUrl}/contents/`;
+    // const url = `${environment.baseUrl}/invalid-endpoint/`;
     return lastValueFrom(this.http.get(url)
     );
   }
+
 
   async handleApiCall (apiCall: Promise<any>, errorMessage: string) {
     try {

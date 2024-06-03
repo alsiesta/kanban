@@ -1,5 +1,7 @@
 <h1 class="mat-h1">Blog</h1>
-<div class="grid-container">
+<div *ngIf="error" class="error" style="display: flex; justify-content: center; align-items: center;">{{ error }}</div>
+<mat-card *ngIf="!contents" style="display: flex; justify-content: center; align-items: center;">This is a placeholder page if the App is executed localy only.</mat-card>
+<div *ngIf="contents" class="grid-container">
   <mat-card  *ngFor="let card of contents">
     <mat-card-header>
       <mat-card-title>
