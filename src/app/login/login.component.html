@@ -9,6 +9,7 @@
                 <mat-label>Username</mat-label>
                 <input matInput type="text" name="username" [(ngModel)]="username" required>
             </mat-form-field>
+            
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
                 <input matInput type="password" name="password" [(ngModel)]="password" required>
@@ -31,8 +32,14 @@
         <form class="form" [formGroup]="signupForm" (ngSubmit)="signup()" fxLayout="column" fxLayoutGap="20px">
             <mat-form-field appearance="fill">
                 <mat-label>Username</mat-label>
-                <input formControlName="username" placeholder="Username" matInput type="text" name="username" [(ngModel)]="username" required>
+                <input formControlName="username" placeholder="Username" matInput type="text" name="username" [(ngModel)]="username" required minlength="3">
             </mat-form-field>
+            <mat-hint *ngIf="signupForm.controls['username'].invalid && (signupForm.controls['username'].dirty || signupForm.controls['username'].touched)" class="error">
+                Username is invalid
+              </mat-hint>
+            <!-- <mat-hint *ngIf="username.invalid  && (username.dirty || username.touched )" style="color:red">Name has to have 3
+                characters minimum</mat-hint> -->
+            <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
             
             
             <mat-form-field appearance="fill">
@@ -57,3 +64,4 @@
         </div>
     </mat-card-content>
 </mat-card>
+

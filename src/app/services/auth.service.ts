@@ -32,8 +32,7 @@ export class AuthService {
     };
     return lastValueFrom(this.http.post(url, body).pipe(
       catchError(error => {
-        alert(JSON.stringify(error.error ? error.error : error, null, 2));
-        return throwError(error);
+        return throwError(error.error ? error.error : error);
       })
     ));
   }

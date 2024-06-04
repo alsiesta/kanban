@@ -22,7 +22,6 @@ export class HomeComponent {
 
   loadContents () {
     const url = `${environment.baseUrl}/contents/`;
-    // const url = `${environment.baseUrl}/invalid-endpoint/`;
     return lastValueFrom(this.http.get(url)
     );
   }

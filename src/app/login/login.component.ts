@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-login',
@@ -17,10 +19,11 @@ export class LoginComponent {
   email: string = '';
   passwordRepeat: string = '';
   signupForm: FormGroup;
+  errorMessage: string ='';
 
-  constructor (private auth: AuthService, private router: Router, private fb: FormBuilder) {
+  constructor (private auth: AuthService, private router: Router, private fb: FormBuilder, private cd: ChangeDetectorRef) {
     this.signupForm = this.fb.group({
-      username: ['', Validators.required],
+      username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(4)]],
       email: ['', [Validators.required, Validators.email]],
       passwordRepeat: ['', [Validators.required]]
@@ -68,7 +71,7 @@ export class LoginComponent {
 
   async signup () {
     if (this.signupForm.invalid) {
-      alert('Please fill out all fields correctly');
+      this.errorMessage = 'Please fill out all fields correctly';
       return;
     }
     try {
@@ -78,8 +81,20 @@ export class LoginComponent {
       this.isLoggingIn = !this.isLoggingIn;
       this.isSigningUp = !this.isSigningUp;
       
-    } catch (error:any) {
+    } catch (error: any) {
       console.error('Error:', error);
+      if (Array.isArray(error)) {
+        this.errorMessage = error[0];
+      } else {
+        this.cd.detectChanges(); // Trigger change detection
+        if (error.username) {
+          this.errorMessage = error.username[0] + ' ' + 'And don\'t use whitespaces!';
+        } else if (error.email) {
+          this.errorMessage = error.email[0] + ' ' + 'Invalid email!';
+        } else {
+          this.errorMessage = 'An error occurred during sign up';
+        }
+      }
     }
   }
 
